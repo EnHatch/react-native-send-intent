@@ -1,6 +1,7 @@
 package com.burnweb.rnsendintent;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.ComponentName;
 import android.provider.CalendarContract;
@@ -9,6 +10,7 @@ import android.provider.CalendarContract.Events;
 import android.util.Log;
 import android.net.Uri;
 
+import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Calendar;
@@ -31,6 +33,7 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
 
     private static final String TEXT_PLAIN = "text/plain";
     private static final String TEXT_HTML = "text/html";
+    private static final String APPLICATION_PDF = "application/pdf";
     private static final String[] VALID_RECURRENCE = { "DAILY", "WEEKLY", "MONTHLY", "YEARLY"};
 
 
@@ -228,6 +231,24 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
         Activity currentActivity = getCurrentActivity();
         if (currentActivity != null) {
             currentActivity.startActivity(Intent.createChooser(intent, title));
+        }
+    }
+
+    @ReactMethod
+    public void openFile(String path, String type, Callback failureCallback) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(path), type);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        Activity currentActivity = getCurrentActivity();
+        if (currentActivity != null) {
+            try {
+                currentActivity.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                failureCallback.invoke();
+            }
+        } else {
+            failureCallback.invoke();
         }
     }
 }

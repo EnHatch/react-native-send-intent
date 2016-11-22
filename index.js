@@ -10,6 +10,7 @@ var RNSendIntentAndroid = NativeModules.SendIntentAndroid;
 var SendIntentAndroid = {
     TEXT_PLAIN: (Platform.OS === 'android') ? RNSendIntentAndroid.TEXT_PLAIN : 'text/plain',
     TEXT_HTML: (Platform.OS === 'android') ? RNSendIntentAndroid.TEXT_HTML : 'text/html',
+    APPLICATION_PDF: (Platform.OS === 'android') ? RNSendIntentAndroid.APPLICATION_PDF : 'application/pdf',
     sendText(config) {
         if("title" in config && config.title != null && config.title.length > 0)
         {
@@ -39,8 +40,11 @@ var SendIntentAndroid = {
         RNSendIntentAndroid.sendMail(mail, (subject || ''), (body || ''));
     },
     openChooserWithOptions(options: Object, title: string) {
-      RNSendIntentAndroid.openChooserWithOptions(options, title);
+        RNSendIntentAndroid.openChooserWithOptions(options, title);
     },
+    openFile(path, type, failureCallback) {
+        RNSendIntentAndroid.openFile(path, type, failureCallback);
+    }
 };
 
 module.exports = SendIntentAndroid;

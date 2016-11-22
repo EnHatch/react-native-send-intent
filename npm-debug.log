@@ -1,0 +1,120 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'enhatch/react-native-send-intent' ]
+2 info using npm@3.10.9
+3 info using node@v6.4.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData enhatch/react-native-send-intent
+8 silly fetchOtherPackageData enhatch/react-native-send-intent
+9 silly cache add args [ 'enhatch/react-native-send-intent', null ]
+10 verbose cache add spec enhatch/react-native-send-intent
+11 silly cache add parsed spec Result {
+11 silly cache add   raw: 'enhatch/react-native-send-intent',
+11 silly cache add   scope: null,
+11 silly cache add   escapedName: null,
+11 silly cache add   name: null,
+11 silly cache add   rawSpec: 'enhatch/react-native-send-intent',
+11 silly cache add   spec: 'github:enhatch/react-native-send-intent',
+11 silly cache add   type: 'hosted',
+11 silly cache add   hosted:
+11 silly cache add    { type: 'github',
+11 silly cache add      ssh: 'git@github.com:enhatch/react-native-send-intent.git',
+11 silly cache add      sshUrl: 'git+ssh://git@github.com/enhatch/react-native-send-intent.git',
+11 silly cache add      httpsUrl: 'git+https://github.com/enhatch/react-native-send-intent.git',
+11 silly cache add      gitUrl: 'git://github.com/enhatch/react-native-send-intent.git',
+11 silly cache add      shortcut: 'github:enhatch/react-native-send-intent',
+11 silly cache add      directUrl: 'https://raw.githubusercontent.com/enhatch/react-native-send-intent/master/package.json' } }
+12 verbose addRemoteGit caching enhatch/react-native-send-intent
+13 verbose addRemoteGit enhatch/react-native-send-intent is a repository hosted by github
+14 silly tryGitProto attempting to clone git://github.com/enhatch/react-native-send-intent.git
+15 silly tryClone cloning enhatch/react-native-send-intent via git://github.com/enhatch/react-native-send-intent.git
+16 verbose tryClone git-github-com-enhatch-react-native-send-intent-git-26a8661f not in flight; caching
+17 verbose correctMkdir /Users/kennygoff/.npm/_git-remotes correctMkdir not in flight; initializing
+18 info git [ 'config', '--get', 'remote.origin.url' ]
+19 silly validateExistingRemote enhatch/react-native-send-intent remote.origin.url: git://github.com/enhatch/react-native-send-intent.git
+20 verbose validateExistingRemote enhatch/react-native-send-intent is updating existing cached remote /Users/kennygoff/.npm/_git-remotes/git-github-com-enhatch-react-native-send-intent-git-26a8661f
+21 info git [ 'fetch', '-a', 'origin' ]
+22 verbose updateRemote git fetch -a origin (git://github.com/enhatch/react-native-send-intent.git)
+23 verbose correctMkdir /Users/kennygoff/.npm/_git-remotes correctMkdir not in flight; initializing
+24 verbose setPermissions enhatch/react-native-send-intent set permissions on /Users/kennygoff/.npm/_git-remotes/git-github-com-enhatch-react-native-send-intent-git-26a8661f
+25 verbose resolveHead enhatch/react-native-send-intent original treeish: master
+26 info git [ 'rev-list', '-n1', 'master' ]
+27 silly resolveHead enhatch/react-native-send-intent resolved treeish: 5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95
+28 verbose resolveHead enhatch/react-native-send-intent resolved Git URL: git://github.com/enhatch/react-native-send-intent.git#5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95
+29 silly resolveHead Git working directory: /var/folders/4q/lgk4m1cx7qzg9tv7y69pqwwc0000gn/T/npm-4470-05f3f2f1/git-cache-f73e94da/5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95
+30 info git [ 'clone',
+30 info git   '/Users/kennygoff/.npm/_git-remotes/git-github-com-enhatch-react-native-send-intent-git-26a8661f',
+30 info git   '/var/folders/4q/lgk4m1cx7qzg9tv7y69pqwwc0000gn/T/npm-4470-05f3f2f1/git-cache-f73e94da/5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95' ]
+31 verbose cloneResolved enhatch/react-native-send-intent clone Cloning into '/var/folders/4q/lgk4m1cx7qzg9tv7y69pqwwc0000gn/T/npm-4470-05f3f2f1/git-cache-f73e94da/5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95'...
+31 verbose cloneResolved done.
+32 info git [ 'checkout', '5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95' ]
+33 verbose checkoutTreeish enhatch/react-native-send-intent checkout Note: checking out '5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95'.
+33 verbose checkoutTreeish
+33 verbose checkoutTreeish You are in 'detached HEAD' state. You can look around, make experimental
+33 verbose checkoutTreeish changes and commit them, and you can discard any commits you make in this
+33 verbose checkoutTreeish state without impacting any branches by performing another checkout.
+33 verbose checkoutTreeish
+33 verbose checkoutTreeish If you want to create a new branch to retain commits you create, you may
+33 verbose checkoutTreeish do so (now or later) by using -b with the checkout command again. Example:
+33 verbose checkoutTreeish
+33 verbose checkoutTreeish   git checkout -b <new-branch-name>
+33 verbose checkoutTreeish
+33 verbose checkoutTreeish HEAD is now at 5c6ac12... Add open file intent and PDF type
+34 info git [ 'submodule', '-q', 'update', '--init', '--recursive' ]
+35 verbose updateSubmodules enhatch/react-native-send-intent submodule update
+36 verbose addLocalDirectory /Users/kennygoff/.npm/react-native-send-intent/1.0.13/package.tgz not in flight; packing
+37 verbose correctMkdir /Users/kennygoff/.npm correctMkdir not in flight; initializing
+38 verbose tar pack [ '/Users/kennygoff/.npm/react-native-send-intent/1.0.13/package.tgz',
+38 verbose tar pack   '/var/folders/4q/lgk4m1cx7qzg9tv7y69pqwwc0000gn/T/npm-4470-05f3f2f1/git-cache-f73e94da/5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95' ]
+39 verbose tarball /Users/kennygoff/.npm/react-native-send-intent/1.0.13/package.tgz
+40 verbose folder /var/folders/4q/lgk4m1cx7qzg9tv7y69pqwwc0000gn/T/npm-4470-05f3f2f1/git-cache-f73e94da/5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95
+41 verbose addLocalTarball adding from inside cache /Users/kennygoff/.npm/react-native-send-intent/1.0.13/package.tgz
+42 verbose correctMkdir /Users/kennygoff/.npm correctMkdir not in flight; initializing
+43 verbose addRemoteGit data._from: enhatch/react-native-send-intent
+44 verbose addRemoteGit data._resolved: git://github.com/enhatch/react-native-send-intent.git#5c6ac12bf31d6b2b4906d4ecdf1cff000a8e9d95
+45 silly cache afterAdd react-native-send-intent@1.0.13
+46 verbose afterAdd /Users/kennygoff/.npm/react-native-send-intent/1.0.13/package/package.json not in flight; writing
+47 verbose correctMkdir /Users/kennygoff/.npm correctMkdir not in flight; initializing
+48 verbose afterAdd /Users/kennygoff/.npm/react-native-send-intent/1.0.13/package/package.json written
+49 silly install normalizeTree
+50 silly loadCurrentTree Finishing
+51 silly loadIdealTree Starting
+52 silly install loadIdealTree
+53 silly cloneCurrentTree Starting
+54 silly install cloneCurrentTreeToIdealTree
+55 silly cloneCurrentTree Finishing
+56 silly loadShrinkwrap Starting
+57 silly install loadShrinkwrap
+58 silly loadShrinkwrap Finishing
+59 silly loadAllDepsIntoIdealTree Starting
+60 silly install loadAllDepsIntoIdealTree
+61 silly rollbackFailedOptional Starting
+62 silly rollbackFailedOptional Finishing
+63 silly runTopLevelLifecycles Finishing
+64 silly install printInstalled
+65 verbose stack Error: Refusing to install react-native-send-intent as a dependency of itself
+65 verbose stack     at checkSelf (/usr/local/lib/node_modules/npm/lib/install/validate-args.js:53:14)
+65 verbose stack     at Array.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/slide/lib/bind-actor.js:15:8)
+65 verbose stack     at LOOP (/usr/local/lib/node_modules/npm/node_modules/slide/lib/chain.js:15:14)
+65 verbose stack     at chain (/usr/local/lib/node_modules/npm/node_modules/slide/lib/chain.js:20:5)
+65 verbose stack     at /usr/local/lib/node_modules/npm/lib/install/validate-args.js:16:5
+65 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:52:35
+65 verbose stack     at Array.forEach (native)
+65 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:52:11
+65 verbose stack     at Array.forEach (native)
+65 verbose stack     at asyncMap (/usr/local/lib/node_modules/npm/node_modules/slide/lib/async-map.js:51:8)
+66 verbose cwd /Users/kennygoff/Projects/enhatch/react-native-send-intent
+67 error Darwin 16.1.0
+68 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "--save" "enhatch/react-native-send-intent"
+69 error node v6.4.0
+70 error npm  v3.10.9
+71 error code ENOSELF
+72 error Refusing to install react-native-send-intent as a dependency of itself
+73 error If you need help, you may report this error at:
+73 error     <https://github.com/npm/npm/issues>
+74 verbose exit [ 1, true ]
