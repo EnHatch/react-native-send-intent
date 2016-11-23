@@ -235,7 +235,7 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void openFile(String path, String type, Callback failureCallback) {
+    public void openFile(String path, String type, Callback successCallback, Callback failureCallback) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(path), type);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
@@ -244,6 +244,7 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
         if (currentActivity != null) {
             try {
                 currentActivity.startActivity(intent);
+                successCallback.invoke();
             } catch (ActivityNotFoundException e) {
                 failureCallback.invoke();
             }

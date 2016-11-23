@@ -42,8 +42,8 @@ var SendIntentAndroid = {
     openChooserWithOptions(options: Object, title: string) {
         RNSendIntentAndroid.openChooserWithOptions(options, title);
     },
-    openFile(path, type, failureCallback) {
-        RNSendIntentAndroid.openFile(path, type, failureCallback);
+    openFile(path, type, successCallback, failureCallback) {
+        RNSendIntentAndroid.openFile(path, type, successCallback, failureCallback);
     }
 };
 
