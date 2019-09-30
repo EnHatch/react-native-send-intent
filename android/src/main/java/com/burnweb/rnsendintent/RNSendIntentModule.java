@@ -1,7 +1,7 @@
 package com.burnweb.rnsendintent;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.content.ComponentName;
 import android.provider.CalendarContract;
@@ -10,8 +10,12 @@ import android.provider.CalendarContract.Events;
 import android.os.Environment;
 import android.util.Log;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.telephony.TelephonyManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 
 import java.io.File;
 import java.util.Map;
@@ -26,6 +30,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
+import com.facebook.react.bridge.ActivityEventListener;
+import com.facebook.react.bridge.BaseActivityEventListener;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.Promise;
@@ -50,6 +56,7 @@ import okio.BufferedSource;
 
 public class RNSendIntentModule extends ReactContextBaseJavaModule {
 
+    private static final int FILE_SELECT_CODE = 20190903;
     private static final String TAG = RNSendIntentModule.class.getSimpleName();
 
     private static final String TEXT_PLAIN = "text/plain";
@@ -59,10 +66,12 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
 
 
     private ReactApplicationContext reactContext;
+    private Callback mCallback;
 
     public RNSendIntentModule(ReactApplicationContext reactContext) {
       super(reactContext);
       this.reactContext = reactContext;
+      this.reactContext.addActivityEventListener(mActivityEventListener);
     }
 
     @Override
@@ -88,6 +97,15 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
     public void getPhoneNumber(final Promise promise) {
       TelephonyManager tm =(TelephonyManager)this.reactContext.getSystemService(Context.TELEPHONY_SERVICE);
       promise.resolve(tm.getLine1Number());
+    }
+
+    @ReactMethod
+    public void openDownloadManager() {
+      Intent sendIntent = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
+        sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (sendIntent.resolveActivity(this.reactContext.getPackageManager()) != null) {
+        this.reactContext.startActivity(sendIntent);
+      }
     }
 
     private Intent getSendIntent(String text, String type) {
@@ -581,6 +599,40 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
+    public void openChromeIntent(String dataUri, final Promise promise) {
+        // following intent syntax of: https://developer.chrome.com/multidevice/android/intents
+        Intent sendIntent;
+        PackageManager packageManager = this.reactContext.getPackageManager();
+
+        try {
+            sendIntent = Intent.parseUri(dataUri, Intent.URI_INTENT_SCHEME);
+            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            // try to find activity that can handle the chrome intent
+            ResolveInfo info = packageManager.resolveActivity(sendIntent, 0);
+
+            // if activity is found, meaning not null
+            if (info != null) {
+                this.reactContext.startActivity(sendIntent);
+                promise.resolve(true);
+                return;
+            }
+            // if activity not found, load fallback URL from chrome intent
+            String fallbackUrl = sendIntent.getStringExtra("browser_fallback_url");
+            if(fallbackUrl != null) {
+                Intent fallbackUrlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUrl));
+                this.reactContext.startActivity(fallbackUrlIntent);
+                promise.resolve(true);
+                return;
+            }
+
+            promise.resolve(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            promise.resolve(false);
+        }
+    }
+
+    @ReactMethod
     public void openMaps(String query) {
       Uri gmmIntentUri = Uri.parse("geo:0,0?q="+query);
       Intent sendIntent = new Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
@@ -661,7 +713,12 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
         }
 
         File fileUrl = new File(options.getString("fileUrl"));
-        intent.setDataAndType(Uri.fromFile(fileUrl), options.getString("type"));
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            Uri uri = FileProvider.getUriForFile(this.reactContext, this.reactContext.getPackageName() + ".fileprovider", fileUrl);
+            intent.setDataAndType(uri, options.getString("type"));
+        } else {
+            intent.setDataAndType(Uri.fromFile(fileUrl), options.getString("type"));
+        }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         Activity currentActivity = getCurrentActivity();
@@ -681,7 +738,7 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
             try {
                 currentActivity.startActivity(intent);
                 successCallback.invoke();
-            } catch (ActivityNotFoundException e) {
+            } catch (android.content.ActivityNotFoundException e) {
                 failureCallback.invoke();
             }
         } else {
@@ -689,4 +746,37 @@ public class RNSendIntentModule extends ReactContextBaseJavaModule {
         }
     }
 
+    @ReactMethod
+    public void openEmailApp() {
+      Intent sendIntent = new Intent(Intent.ACTION_MAIN);
+      sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      sendIntent.addCategory(Intent.CATEGORY_APP_EMAIL);
+      if (sendIntent.resolveActivity(this.reactContext.getPackageManager()) != null) {
+          this.reactContext.startActivity(sendIntent);
+      }
+    }
+
+    @ReactMethod
+    public void openFilePicker(ReadableMap options,Callback callback) {
+      mCallback = callback;
+      Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+      intent.setType(options.getString("type"));
+      intent.addCategory(Intent.CATEGORY_OPENABLE);
+      try {
+          Activity currentActivity = getCurrentActivity();
+          currentActivity.startActivityForResult(Intent.createChooser(intent, options.getString("title")),FILE_SELECT_CODE);
+      } catch (android.content.ActivityNotFoundException ex) {
+
+      }
+    }
+
+    private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener() {
+      @Override
+      public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
+          if (requestCode == FILE_SELECT_CODE && data!=null) {
+              Uri uri = data.getData();
+              mCallback.invoke(uri.getPath());
+          }
+      }
+    };
 }
